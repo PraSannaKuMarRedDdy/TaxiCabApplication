@@ -111,6 +111,7 @@
 			    <version>2.19.1</version>
 			        <configuration>
 		       	        	<testFailureIgnore>true</testFailureIgnore>
+					<skipTests>true</skipTests>
 			   	<additionalClasspathElements>
 			         <additionalClasspathElement>${basedir}/src/test/resources</additionalClasspathElement>
 			        </additionalClasspathElements>
