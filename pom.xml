@@ -26,6 +26,19 @@
 		<io.springfox.springfox-swagger2>2.3.1</io.springfox.springfox-swagger2>
 		<io.springfox.springfox-swagger-ui>2.3.1</io.springfox.springfox-swagger-ui>
 	</properties>
+	
+	<distributionManagement>
+  	 <repository>
+      		<id>nexus</id>
+      		<name>Releases</name>
+      		<url>http://172.31.10.88:8081/repository/maven-releases</url>
+    	</repository>
+    	<snapshotRepository>
+      		<id>nexus</id>
+      		<name>Snapshot</name>
+     		<url>http://172.31.10.88:8081/repository/maven-snapshots</url>
+    	</snapshotRepository>
+  	</distributionManagement>
 
 	<dependencies>
 		<!-- For default Spring Boot utilities with spring security -->
