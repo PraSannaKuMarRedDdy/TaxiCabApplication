@@ -25,12 +25,9 @@
 		<com.google.guava.guava.version>21.0</com.google.guava.guava.version>
 		<io.springfox.springfox-swagger2>2.3.1</io.springfox.springfox-swagger2>
 		<io.springfox.springfox-swagger-ui>2.3.1</io.springfox.springfox-swagger-ui>
-	</properties>
-	<properties>
+	
             <!-- Optional URL to server. Default value is http://localhost:9000 -->
-            <sonar.host.url>
-              http://13.233.112.121:9000
-            </sonar.host.url>
+            <sonar.host.url>http://13.233.112.121:9000</sonar.host.url>
         </properties>
 
 	<dependencies>
