@@ -2,8 +2,8 @@
 properties([
     parameters([
         string(defaultValue: "master", description: 'Which Git Branch to clone?', name: 'GIT_BRANCH'),
-        string(defaultValue: "1234567", description: 'AWS Account Number?', name: 'ACCOUNT'),
-        string(defaultValue: "java-app", description: 'AWS ECR Repository where built docker images will be pushed.', name: 'ECR_REPO_NAME')
+        string(defaultValue: "921759041822", description: 'AWS Account Number?', name: 'ACCOUNT'),
+        string(defaultValue: "taxicab", description: 'AWS ECR Repository where built docker images will be pushed.', name: 'ECR_REPO_NAME')
 ])
 ])
 try
@@ -17,7 +17,7 @@ try
 
   stage('Build Maven'){
     node('master'){
-      withMaven(maven: 'apache-maven3.6'){
+      withMaven(maven: 'apache-maven3.6.1', jdk: 'java'){
        sh "mvn clean package"
       } 
     }
@@ -25,7 +25,7 @@ try
 
   stage('Build Docker Image') {
     node('master'){
-      sh "\$(aws ecr get-login --no-include-email --region us-east-1)"
+      sh "\$(aws ecr get-login --no-include-email --region ap-south-1)"
       GIT_COMMIT_ID = sh (
         script: 'git log -1 --pretty=%H',
         returnStdout: true
