@@ -111,8 +111,20 @@
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>4.0.0.1744</version>
             </plugin>
-		</plugins>
+  <plugin>
+  <configuration>
+    <checkstyleRules>
+      <module name="Checker">
+        <module name="FileTabCharacter">
+          <property name="eachLine" value="true" />
+        </module>
+        <module name="TreeWalker">
+          <module name="EmptyBlock"/>
+        </module>
+      </module>
+    </checkstyleRules>
+  </configuration>
+</plugin> 	    
+	  </plugins>
 	</build>
-
-
 </project>
