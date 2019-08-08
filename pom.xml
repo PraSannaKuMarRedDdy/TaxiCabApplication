@@ -120,8 +120,139 @@
 			        </additionalClasspathElements>
 			    	</configuration>
 		</plugin>
+        <plugin>
+                    <groupId>io.takari</groupId>
+                    <artifactId>maven</artifactId>
+                    <version>0.6.1</version>
+                    <configuration>
+                        <maven>${version.maven}</maven>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <executions>
+                        <execution>
+                            <id>run-checkstyle</id>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <checkstyleRules>
+                            <!-- We only enable rules that are not enforced by
+                            error-prone or automatically corrected through
+                            application of google-java-format. -->
+                            <module name="Checker">
+                                <module name="UniqueProperties" />
+                                <module name="TreeWalker">
+                                    <module name="AnnotationUseStyle">
+                                        <!-- XXX: Right now this check doesn't
+                                        completely enforce the desired style.
+                                        See https://github.com/checkstyle/checkstyle/issues/4972;
+                                        we're looking for the proposed `compact
+                                        = ALWAYS` and `singleArrayCurlies =
+                                        NEVER` style. -->
+                                    </module>
+                                    <module name="DeclarationOrder">
+                                        <!-- We don't enforce sorting fields by
+                                        their visibility modifier, for two
+                                        reasons:
+                                        - During (class) initialization
+                                          declaration order matters. Though the
+                                          plugin does not warn about fields
+                                          with obvious dependencies, its
+                                          dependency analysis is necessarily
+                                          incomplete; NPEs may result if some
+                                          of its advice is followed.
+                                        - Sometimes a field is annotated
+                                          `@VisibleForTesting`. It may then be
+                                          preferable not to reorder. The plugin
+                                          does not current respect this
+                                          annotation. -->
+                                        <property name="ignoreModifiers" value="true" />
+                                    </module>
+                                    <module name="DefaultComesLast" />
+                                    <module name="DesignForExtension" />
+                                    <module name="EmptyBlock" />
+                                    <module name="EmptyCatchBlock" />
+                                    <module name="FinalClass" />
+                                    <module name="HiddenFieldCheck">
+                                        <property name="ignoreConstructorParameter" value="true" />
+                                        <property name="ignoreSetter" value="true" />
+                                    </module>
+                                    <module name="IllegalImport">
+                                        <!-- These packages are found in some
+                                        of the dependencies declared above. -->
+                                        <property name="illegalClasses" value="javax.xml.bind.DatatypeConverter" />
+                                        <property name="illegalClasses" value="org.springframework.context.annotation.ComponentScan" />
+                                        <property name="illegalPkgs" value="com.amazonaws.annotation" />
+                                        <property name="illegalPkgs" value="com.beust.jcommander.internal" />
+                                        <property name="illegalPkgs" value="com.google.api.client.repackaged" />
+                                        <property name="illegalPkgs" value="com.newrelic.agent.deps" />
+                                        <property name="illegalPkgs" value="jdk" />
+                                        <property name="illegalPkgs" value="jersey.repackaged" />
+                                        <property name="illegalPkgs" value="nl.jqno.equalsverifier.internal" />
+                                        <property name="illegalPkgs" value="org.apache.commons.lang3">
+                                            <!-- Please use Guava or a custom
+                                            helper method instead. -->
+                                        </property>
+                                        <property name="illegalPkgs" value="org.immutables.value.internal" />
+                                        <property name="illegalPkgs" value="org.mutabilitydetector.internal" />
+                                    </module>
+                                    <module name="IllegalImport">
+                                        <!-- XXX: This config uses
+                                        regexes so as to disallow static
+                                        imports. Once `illegalClasses`
+                                        disallows static imports by default,
+                                        this config can be merged into the one
+                                        above. See
+                                        https://github.com/checkstyle/checkstyle/issues/4954. -->
+                                        <property name="illegalClasses" value="org\.testng\.AssertJUnit(\..*?)?" />
+                                        <property name="regexp" value="true" />
+                                    </module>
+                                    <module name="IllegalCatch" />
+                                    <module name="IllegalThrows" />
+                                    <module name="InnerAssignment" />
+                                    <module name="MissingDeprecated" />
+                                    <module name="MutableException" />
+                                    <module name="NeedBraces" />
+                                    <module name="NoClone" />
+                                    <module name="NoFinalizer" />
+                                    <module name="PackageDeclaration" />
+                                    <module name="ParameterAssignment" />
+                                    <module name="RedundantModifier" />
+                                    <module name="SimplifyBooleanExpression" />
+                                    <module name="SimplifyBooleanReturn" />
+                                    <module name="TrailingComment" />
+                                    <module name="WriteTag">
+                                        <property name="tag" value="@author" />
+                                        <property name="tagFormat" value="\S" />
+                                        <property name="tagSeverity" value="error" />
+                                        <property name="severity" value="ignore" />
+                                    </module>
+                                    <module name="UnnecessaryParentheses" />
+                                    <module name="UnusedImports">
+                                        <!-- Error-prone also detects these,
+                                        but (currently) doesn't warn about
+                                        JavaDoc-only imports. -->
+                                    </module>
+                                </module>
+                            </module>
+                        </checkstyleRules>
+                        <failOnViolation>false</failOnViolation>
+                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>8.20</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
 	</plugins>
 	</build>
-
-
 </project>
