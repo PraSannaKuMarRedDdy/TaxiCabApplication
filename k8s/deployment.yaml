@@ -13,6 +13,6 @@ spec:
       containers:
       - name: taxicab-ENVIRONMENT
         image: IMAGE
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
