@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: taxicab-ENVIRONMENT
+  name: taxicab
 spec:
   replicas: 1
   template:
@@ -11,7 +11,7 @@ spec:
         version: v1
     spec:
       containers:
-      - name: taxicab-ENVIRONMENT
+      - name: taxicab
         image: IMAGE
         imagePullPolicy: Always
         ports:
