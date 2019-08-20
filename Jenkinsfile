@@ -12,6 +12,7 @@ try
     node('master'){
       cleanWs()
       checkout([$class: 'GitSCM', branches: [[name: '*/$GIT_BRANCH']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'git@github.com:powerupcloud/TaxiCabApplication.git']]])
+    sh "cat k8s/deployment.yaml"  
     }
   }
 
