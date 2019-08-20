@@ -19,6 +19,7 @@ try
     node('master'){
       withMaven(maven: 'apache-maven3.6.1', jdk: 'java'){
        sh "mvn clean package"
+       sh "cat k8s/deployment.yaml"  
       } 
     }
   }
@@ -38,6 +39,7 @@ try
       IMAGETAG="${GIT_COMMIT_ID}-${TIMESTAMP}"
         sh "docker build -t ${ACCOUNT}.dkr.ecr.ap-south-1.amazonaws.com/${ECR_REPO_NAME}:${IMAGETAG} ."
       sh "docker push ${ACCOUNT}.dkr.ecr.ap-south-1.amazonaws.com/${ECR_REPO_NAME}:${IMAGETAG}"
+        sh "cat k8s/deployment.yaml"  
     }
   }
 
@@ -46,6 +48,7 @@ try
         withEnv(["KUBECONFIG=${JENKINS_HOME}/.kube/dev-config","IMAGE=${ACCOUNT}.dkr.ecr.ap-south-1.amazonaws.com/${ECR_REPO_NAME}:${IMAGETAG}"]){
         sh "sed -i 's|IMAGE|${IMAGE}|g' k8s/deployment.yaml"
         sh "sed -i 's|ENVIRONMENT|dev|g' k8s/*.yaml"
+        sh "cat k8s/deployment.yaml"    
         sh "kubectl apply -f k8s"
         DEPLOYMENT = sh (
           script: 'cat k8s/deployment.yaml | yq -r .metadata.name',
